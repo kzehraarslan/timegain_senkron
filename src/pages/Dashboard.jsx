@@ -41,6 +41,10 @@ function Dashboard() {
     navigate("/calendar-page");
   };
 
+  const handleProfileClick = () => {
+    navigate("/profile");
+  };
+
   const menuItems = [
     {
       icon: <FaHome style={styles.icon} title="Ana Sayfa" />,
@@ -70,8 +74,20 @@ function Dashboard() {
       icon: <FaChalkboardTeacher style={styles.icon} title="Eğitimler" />,
       title: "Eğitimler",
     },
-    { icon: <FaUser style={styles.icon} title="Profil" />, title: "Profil" },
-    { icon: <FaCog style={styles.icon} title="Ayarlar" />, title: "Ayarlar" },
+    {
+      icon: (
+        <FaUser
+          style={styles.icon}
+          title="Profil"
+          onClick={handleProfileClick}
+        />
+      ),
+      title: "Profil",
+    },
+    {
+      icon: <FaCog style={styles.icon} title="Ayarlar" />,
+      title: "Ayarlar",
+    },
   ];
 
   const filteredItems = menuItems.filter((item) =>
