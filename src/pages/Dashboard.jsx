@@ -6,6 +6,7 @@ import {
   FaCog,
   FaCalendarAlt,
   FaChalkboardTeacher,
+  FaUsers,
 } from "react-icons/fa";
 import { MdOutlineNoteAdd } from "react-icons/md";
 
@@ -45,6 +46,10 @@ function Dashboard() {
     navigate("/profile");
   };
 
+  const handleWorkspacesClick = () => {
+    navigate("/workspaces");
+  };
+
   const menuItems = [
     {
       icon: <FaHome style={styles.icon} title="Ana Sayfa" />,
@@ -71,9 +76,16 @@ function Dashboard() {
       title: "Takvim",
     },
     {
-      icon: <FaChalkboardTeacher style={styles.icon} title="Eğitimler" />,
-      title: "Eğitimler",
+      icon: (
+        <FaUsers
+          style={styles.icon}
+          onClick={handleWorkspacesClick}
+          title="Çalışma Odaları"
+        />
+      ),
+      title: "Çalışma Odaları",
     },
+
     {
       icon: (
         <FaUser

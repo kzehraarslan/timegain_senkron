@@ -14,6 +14,8 @@ import { NoteProvider } from "./context/NoteContext";
 import WeeklyPlannerPage from "./pages/WeeklyPlannerPage";
 import DailyPlanner from "./pages/DailyPlanner";
 import Profile from "./pages/Profile";
+import WorkSpacePage from "./pages/WorkSpacePage";
+import UserProfilePage from "./pages/UserProfilePage";
 function App() {
   return (
     <NoteProvider>
@@ -30,6 +32,8 @@ function App() {
         <Route path="/weekly-planner" element={<WeeklyPlannerPage />} />
         <Route path="/daily-planner" element={<DailyPlanner />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/workspaces" element={<WorkSpacePage />} />
+        <Route path="/user-profile" element={<UserProfilePage />} />
       </Routes>
     </NoteProvider>
   );
