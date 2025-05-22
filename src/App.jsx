@@ -11,7 +11,7 @@ import CalendarPage from "./pages/CalendarPage";
 import DayDetailPage from "./pages/DayDetailPage";
 import MonthlyPlannerPage from "./pages/MonthlyPlannerPage";
 import { NoteProvider } from "./context/NoteContext";
-
+import WeeklyPlannerPage from "./pages/WeeklyPlannerPage";
 function App() {
   return (
     <NoteProvider>
@@ -25,6 +25,7 @@ function App() {
         <Route path="/calendar-page" element={<CalendarPage />} />
         <Route path="/calendar/day/:date" element={<DayDetailPage />} />
         <Route path="/monthly-planner" element={<MonthlyPlannerPage />} />
+        <Route path="/weekly-planner" element={<WeeklyPlannerPage />} />
       </Routes>
     </NoteProvider>
   );
