@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+// src/pages/MonthlyPlannerPage.jsx
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MonthlyPlannerPage.css";
-import { useContext } from "react";
 import { NoteContext } from "../context/NoteContext";
 
 const months = [
@@ -23,15 +23,16 @@ const MonthlyPlannerPage = () => {
   const navigate = useNavigate();
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
-  const [notes, setNotes] = useState({}); // { "3": {text: "Not", starred: true}, ... }
+  const [notes, setNotes] = useState({});
+  const { addStarredNote } = useContext(NoteContext); // Not: Bu fonksiyon context'te tanımlanmalı
 
   const daysInMonth = new Date(
     today.getFullYear(),
     currentMonth + 1,
     0
   ).getDate();
-  const firstDay = new Date(today.getFullYear(), currentMonth, 1).getDay(); // 0: Pazar
-  const shiftedFirstDay = firstDay === 0 ? 6 : firstDay - 1; // Pazartesi=0
+  const firstDay = new Date(today.getFullYear(), currentMonth, 1).getDay();
+  const shiftedFirstDay = firstDay === 0 ? 6 : firstDay - 1;
 
   const handleAddNote = (day) => {
     const text = prompt(`${day} için not girin:`);
@@ -39,23 +40,25 @@ const MonthlyPlannerPage = () => {
       const starred = window.confirm(
         "Bu notu önemli (yıldızlı) olarak işaretlemek ister misin?"
       );
-      setNotes((prev) => ({
-        ...prev,
-        [day]: { text, starred },
-      }));
+      const newNote = { text, starred, day, month: currentMonth };
+      setNotes((prev) => ({ ...prev, [day]: newNote }));
+
+      if (starred) {
+        addStarredNote({ ...newNote, date: `${day} ${months[currentMonth]}` });
+      }
     }
   };
 
   const renderCalendar = () => {
     const cells = [];
     const totalCells = shiftedFirstDay + daysInMonth;
+
     for (let i = 0; i < totalCells; i++) {
       if (i < shiftedFirstDay) {
         cells.push(<td key={i}></td>);
       } else {
         const day = i - shiftedFirstDay + 1;
         const note = notes[day];
-
         cells.push(
           <td key={i} onClick={() => handleAddNote(day)}>
             {day}
@@ -69,7 +72,6 @@ const MonthlyPlannerPage = () => {
       }
     }
 
-    // satırları 7'şer gruplara böl
     const rows = [];
     for (let i = 0; i < cells.length; i += 7) {
       rows.push(<tr key={i}>{cells.slice(i, i + 7)}</tr>);
@@ -78,16 +80,16 @@ const MonthlyPlannerPage = () => {
     return rows;
   };
 
-  const handleMonthChange = (index) => {
-    setCurrentMonth(index);
+  const handleMonthChange = (i) => {
+    setCurrentMonth(i);
     setNotes({});
   };
 
-  const importantNotes = Object.entries(notes)
-    .filter(([_, note]) => note.starred)
-    .map(([day, note]) => (
-      <li key={day}>
-        ⭐ {day}: {note.text}
+  const importantNotes = Object.values(notes)
+    .filter((note) => note.starred)
+    .map((note, index) => (
+      <li key={index}>
+        ⭐ {note.day}: {note.text}
       </li>
     ));
 
@@ -99,7 +101,6 @@ const MonthlyPlannerPage = () => {
         planlayıcı
       </h1>
 
-      {/* Ay Seçimi */}
       <div className="month-tabs">
         {months.map((month, i) => (
           <button
@@ -112,7 +113,6 @@ const MonthlyPlannerPage = () => {
         ))}
       </div>
 
-      {/* Önemli Notlar */}
       <div className="notes-box">
         <div className="notes-header">
           <span>ÖNEMLİ NOTLAR</span>
@@ -127,7 +127,6 @@ const MonthlyPlannerPage = () => {
         </ul>
       </div>
 
-      {/* Takvim */}
       <div className="calendar-table">
         <table>
           <thead>
@@ -145,7 +144,6 @@ const MonthlyPlannerPage = () => {
         </table>
       </div>
 
-      {/* Kaydet/Kapat Butonları */}
       <div className="monthly-buttons">
         <button className="save-btn">💾</button>
         <button className="close-btn" onClick={() => navigate("/")}>

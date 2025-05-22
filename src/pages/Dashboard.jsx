@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FaHome,
@@ -12,16 +12,35 @@ import { MdOutlineNoteAdd } from "react-icons/md";
 function Dashboard() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const [importantNotes, setImportantNotes] = useState([]);
+
+  useEffect(() => {
+    const storedNotes = JSON.parse(localStorage.getItem("monthlyNotes")) || {};
+    const allStarredNotes = [];
+
+    Object.entries(storedNotes).forEach(([monthIndex, notesObj]) => {
+      Object.entries(notesObj).forEach(([day, note]) => {
+        if (note.starred) {
+          allStarredNotes.push({
+            day,
+            text: note.text,
+            month: getMonthName(monthIndex),
+          });
+        }
+      });
+    });
+
+    setImportantNotes(allStarredNotes);
+  }, []);
 
   const handleNoteEditorPage = () => {
     navigate("/note-editor");
   };
 
   const handleCalendarClick = () => {
-    navigate("/calendar-page"); // Takvim sayfasının rotası
+    navigate("/calendar-page");
   };
 
-  // Menü simgeleri listesi
   const menuItems = [
     {
       icon: <FaHome style={styles.icon} title="Ana Sayfa" />,
@@ -55,7 +74,6 @@ function Dashboard() {
     { icon: <FaCog style={styles.icon} title="Ayarlar" />, title: "Ayarlar" },
   ];
 
-  // Arama sorgusuna göre filtreleme
   const filteredItems = menuItems.filter((item) =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -82,6 +100,22 @@ function Dashboard() {
           <p style={styles.pageTitle}>Ana Sayfa</p>
         </div>
 
+        {/* ⭐ Önemli Notlar */}
+        <div style={{ marginTop: "20px", paddingLeft: "10px" }}>
+          <h3 style={{ fontWeight: "bold" }}>⭐ Önemli Notlar</h3>
+          <ul>
+            {importantNotes.length > 0 ? (
+              importantNotes.map((note, i) => (
+                <li key={i}>
+                  {note.day} {note.month}: {note.text}
+                </li>
+              ))
+            ) : (
+              <li>Henüz önemli not bulunmuyor.</li>
+            )}
+          </ul>
+        </div>
+
         <div style={styles.contentRow}>
           <div style={styles.leftColumn}>
             <div style={styles.calendarMini}></div>
@@ -96,6 +130,24 @@ function Dashboard() {
       </div>
     </div>
   );
+}
+
+function getMonthName(index) {
+  const months = [
+    "Ocak",
+    "Şubat",
+    "Mart",
+    "Nisan",
+    "Mayıs",
+    "Haziran",
+    "Temmuz",
+    "Ağustos",
+    "Eylül",
+    "Ekim",
+    "Kasım",
+    "Aralık",
+  ];
+  return months[parseInt(index)];
 }
 
 const styles = {
