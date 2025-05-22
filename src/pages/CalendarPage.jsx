@@ -104,6 +104,12 @@ const CalendarPage = () => {
         >
           Haftalık Planlayıcı
         </button>
+        <button
+          className={styles.sideButton}
+          onClick={() => navigate("/daily-planner")}
+        >
+          Günlük Planlayıcı
+        </button>
       </div>
 
       {/* Sağ panel: takvim */}

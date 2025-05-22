@@ -1,0 +1,143 @@
+.daily-planner {
+  background-color: #fefae0;
+  padding: 40px;
+  font-family: "Segoe UI", sans-serif;
+  min-height: 100vh;
+}
+
+.title {
+  font-size: 32px;
+  text-align: center;
+  font-weight: bold;
+  font-family: "Georgia", serif;
+  margin-bottom: 20px;
+}
+
+.inputs {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.inputs input {
+  padding: 8px 12px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  background-color: #fefae0;
+}
+
+.main-content {
+  display: flex;
+  gap: 30px;
+}
+
+/* SAAT & NOT SATIRI */
+.time-column {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.time-slot-with-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.time-label {
+  width: 50px;
+  font-size: 14px;
+  color: #444;
+}
+
+.time-slot-with-note input {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 13px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+/* KUTULAR */
+.boxes {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+}
+
+.box {
+  background-color: #f2f2f2;
+  border-radius: 16px;
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.small-box {
+  max-height: 400px;
+}
+
+.box h2 {
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #333;
+}
+
+.box textarea {
+  resize: none;
+  height: 120px;
+  border: none;
+  padding: 10px;
+  font-size: 13px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: inset 0 1px 3px rgba(9, 3, 175, 0.1);
+}
+
+.bottom-section {
+  margin-top: 15px;
+}
+
+.weather label,
+.mood label {
+  font-size: 13px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #444;
+}
+
+.weather input {
+  padding: 6px;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+  width: 100%;
+  background-color: #fff;
+}
+
+.mood-icons {
+  margin-top: 5px;
+  display: flex;
+  gap: 10px;
+}
+
+.mood-icon {
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: transform 0.2s ease;
+}
+
+.mood-icon:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+}
+
+.mood-icon.active {
+  opacity: 1;
+  transform: scale(1.3);
+}
